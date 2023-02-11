@@ -1,0 +1,12 @@
+#Telegram stuff
+token = "Your bot token"
+chatID = '-1001861056305' #the group or chennel id
+
+
+#reddit api authentication
+reddit_client_id = "" #reddit client id
+reddit_client_secret = "" #reddit client secret 
+
+
+#Media and file captions on Telegram can currently hold up to 1024 characters, this limit could be increased to match the 
+#character limit for regular messages (4096).
