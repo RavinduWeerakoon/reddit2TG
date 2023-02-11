@@ -25,6 +25,6 @@ class PrevPosts:
 
     def get_last_urls(self, count=20):
 
-        res = self.execute(f"SELECT url FROM posted ORDER BY rowid")
+        res = self.execute(f"SELECT url FROM posted ORDER BY rowid DESC")
         last_urls = res.fetchmany(count)
         return [item[0] for item in last_urls]

@@ -3,8 +3,6 @@ import telegram
 import re
 from const import *
 from language_processing import is_question
-import requests
-import json
 
 reddit = praw.Reddit(
     client_id= reddit_client_id,  
@@ -78,15 +76,15 @@ def check_question(submission):
             print(f"{submission.id} removed")
             return True 
 
-    if is_question(submission.title) and len(submission.selftext) < 400:
-        return True
+    if is_question(submission.title):
+        if is_question(submission.selftext):
+            return True 
+        elif len(submission.selftext)<500:
+            return True
 
     return False
     
 
-# get_gallery_imgs("10xnb77")
-
-    
 
 
     

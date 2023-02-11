@@ -47,8 +47,3 @@ def is_question(question):
     else:
         return True 
 
-
-
-
-    
-

@@ -15,8 +15,9 @@ async def hot(context: ContextTypes.DEFAULT_TYPE):
     #creating the temp list to update the db
     to_update = []
     scraper = RedditScraper()
-    hot = scraper.get_hot(num=20)
+    hot = scraper.get_hot(num=40)
     last_urls = prev_posts.get_last_urls()
+
     for post in hot:
         if post.url not in last_urls:
             
