@@ -58,8 +58,8 @@ def markdown_to_html(text):
     #converting points
 
     text = text.replace("*", '•')
-    #extra white spaces
-    text = text.replace("\n\n", '\n')
+    # #extra white spaces
+    # text = text.replace("\n\n", '\n')
     return text
 
 
