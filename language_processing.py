@@ -1,8 +1,14 @@
 import nltk 
 import joblib
 
+
 def dialogue_act_features(post):
     features = {}
+    try:
+        tokens = nltk.word_tokenize(post)
+    except:
+        nltk.download('punkt')
+        tokens = nltk.word_tokenize(post)
     for word in nltk.word_tokenize(post):
         features['contains({})'.format(word.lower())] = True
     return features
@@ -11,7 +17,11 @@ def dialogue_act_features(post):
 question_types = ["whQuestion","ynQuestion"]
 def is_ques_using_nltk(ques):
     classifier = joblib.load('model.pkl')
-    question_type = classifier.classify(dialogue_act_features(ques)) 
+    try:
+        question_type = classifier.classify(dialogue_act_features(ques)) 
+    except:
+        nltk.download('nps_chat')
+        question_type = classifier.classify(dialogue_act_features(ques))
     return question_type in question_types
 
 question_pattern = ["do i", "do you", "what", "who", "is it", "why","would you", "how","is there",

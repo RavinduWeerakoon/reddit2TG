@@ -15,8 +15,8 @@ async def hot(context: ContextTypes.DEFAULT_TYPE):
     #creating the temp list to update the db
     to_update = []
     scraper = RedditScraper()
-    hot = scraper.get_hot(num=40)
-    last_urls = prev_posts.get_last_urls()
+    hot = scraper.get_hot(num=number_of_posts)
+    last_urls = prev_posts.get_last_urls(number_of_posts+10)
 
     for post in hot:
         if post.url not in last_urls:
@@ -29,10 +29,10 @@ async def hot(context: ContextTypes.DEFAULT_TYPE):
             to_update.append(post.url)
             if post.is_self:
                 if "preview.redd.it" in text:
-                    send_images(title, text, context)
+                    await send_images(title, text, context)
                 else:
                     try:
-                        await context.bot.send_message(chatID, text=f"<b>{title}</b>\n\n{markdown_to_html(post.selftext)}", parse_mode=telegram.constants.ParseMode.HTML)
+                        await context.bot.send_message(chatID, text=f"<b>{title}</b>\n\n{markdown_to_html(post.selftext)}", parse_mode=telegram.constants.ParseMode.HTML, disable_web_page_preview=True)
                     except:
                         pass
 
@@ -42,8 +42,6 @@ async def hot(context: ContextTypes.DEFAULT_TYPE):
             elif 'reddit.com/gallery' in post.url:
                 continue
             
-            else:
-                await context.bot.send_message(chatID,text=f"<b>{title}</b>\n\n{post.url}", parse_mode=telegram.constants.ParseMode.HTML)
     prev_posts.insert_urls(to_update)        
 
 # async def send_messages(id, text, context):
@@ -75,5 +73,4 @@ job_queue = application.job_queue
     
 hot_handler = CommandHandler('hot', hot_command)
 application.add_handler(hot_handler)
-job_minute = job_queue.run_repeating(hot, interval=600, first=10)
-application.run_polling()
+job_minute = job_queue.run_repeating(hot, interval=checking_frequency*3600)
