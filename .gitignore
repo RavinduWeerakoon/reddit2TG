@@ -2,3 +2,4 @@ const.py
 reddit_bot.db
 __pycache__
 venv
+ngrok.exe

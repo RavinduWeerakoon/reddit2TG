@@ -61,14 +61,22 @@ async def send_images(title, text, context):
         text = markdown_to_html(text)
         caption=f"<b>{title}</b> \n {text}"
         if len(images)==1:
-            await context.bot.sendPhoto(chatID, photo=images[0], caption=caption, parse_mode=telegram.constants.ParseMode.HTML)
+            try:
+                await context.bot.sendPhoto(chatID, photo=images[0], caption=caption, parse_mode=telegram.constants.ParseMode.HTML)
+            except:
+                pass
         else:
-            await context.bot.send_media_group(chatID, media=images, caption=caption, parse_mode=telegram.constants.ParseMode.HTML)
+            try:
+                await context.bot.send_media_group(chatID, media=images, caption=caption, parse_mode=telegram.constants.ParseMode.HTML)
+            except:
+                pass
 
 async def hot_command(update, context):
     pass
     
 application = ApplicationBuilder().token(token).build()
+
+application = ApplicationBuilder().token(token).read_timeout(30).write_timeout(30).build()
 job_queue = application.job_queue
     
 hot_handler = CommandHandler('hot', hot_command)

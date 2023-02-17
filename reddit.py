@@ -25,7 +25,6 @@ class RedditScraper():
 
 
 
-
 def parse_img_from_text(text):
 
     regex = r"https?://\S*"
