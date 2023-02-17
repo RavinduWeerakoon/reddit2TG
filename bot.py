@@ -74,7 +74,6 @@ async def send_images(title, text, context):
 async def hot_command(update, context):
     pass
     
-application = ApplicationBuilder().token(token).build()
 
 application = ApplicationBuilder().token(token).read_timeout(30).write_timeout(30).build()
 job_queue = application.job_queue
