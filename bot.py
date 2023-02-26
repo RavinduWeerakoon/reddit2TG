@@ -35,7 +35,7 @@ async def hot(context: ContextTypes.DEFAULT_TYPE):
             to_update.append(post.url)
             if post.is_self:
                 if "preview.redd.it" in text:
-                    print("image")
+                    
                     await send_images(title, text, context)
                 else:
                     try:
@@ -45,7 +45,7 @@ async def hot(context: ContextTypes.DEFAULT_TYPE):
 
 
             elif  '.jpg' in post.url or '.png' in post.url or '.gif' in post.url:
-                print("image")
+                
                 await context.bot.sendPhoto(chatID, photo=post.url, caption=f"<b>{title}</b>", parse_mode=telegram.constants.ParseMode.HTML)
             elif 'reddit.com/gallery' in post.url:
                 continue
