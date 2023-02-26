@@ -83,7 +83,3 @@ def check_question(submission):
 
     return False
     
-
-
-
-    

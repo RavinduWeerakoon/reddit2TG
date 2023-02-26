@@ -5,6 +5,7 @@ from telegram import Update
 from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler
 from const import *
 from database import PrevPosts
+import time
 
 
 prev_posts = PrevPosts()
@@ -13,22 +14,28 @@ prev_posts = PrevPosts()
 
 async def hot(context: ContextTypes.DEFAULT_TYPE):
     #creating the temp list to update the db
+    
     to_update = []
     scraper = RedditScraper()
     hot = scraper.get_hot(num=number_of_posts)
     last_urls = prev_posts.get_last_urls(number_of_posts+10)
 
+    
+    time_delay = checking_frequency * 3600 /40
+    
     for post in hot:
+        
         if post.url not in last_urls:
             
             title = post.title
             text = post.selftext
-            #exclude pinned messages
+
             if post.stickied or check_question(post):
                 continue
             to_update.append(post.url)
             if post.is_self:
                 if "preview.redd.it" in text:
+                    print("image")
                     await send_images(title, text, context)
                 else:
                     try:
@@ -37,11 +44,13 @@ async def hot(context: ContextTypes.DEFAULT_TYPE):
                         pass
 
 
-            elif  '.jpg' in post.url or '.png' in post.url:
+            elif  '.jpg' in post.url or '.png' in post.url or '.gif' in post.url:
+                print("image")
                 await context.bot.sendPhoto(chatID, photo=post.url, caption=f"<b>{title}</b>", parse_mode=telegram.constants.ParseMode.HTML)
             elif 'reddit.com/gallery' in post.url:
                 continue
-            
+            time.sleep(time_delay)
+    
     prev_posts.insert_urls(to_update)        
 
 # async def send_messages(id, text, context):
