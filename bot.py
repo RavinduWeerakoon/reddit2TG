@@ -25,7 +25,7 @@ async def hot(context: ContextTypes.DEFAULT_TYPE):
     
     for post in hot:
         
-        if post.url not in last_urls:
+        if (post.url not in last_urls) and (post.url not in to_update):
             
             title = post.title
             text = post.selftext
