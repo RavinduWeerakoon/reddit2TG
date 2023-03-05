@@ -12,6 +12,6 @@ reddit_client_secret = "" #reddit client secret
 #character limit for regular messages (4096).
 
 
-number_of_posts = 20
+number_of_posts = 40
 #checking frequency in hours
 checking_frequency = 1
