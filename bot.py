@@ -45,8 +45,10 @@ async def hot(context: ContextTypes.DEFAULT_TYPE):
 
 
             elif  '.jpg' in post.url or '.png' in post.url or '.gif' in post.url:
-                
-                await context.bot.sendPhoto(chatID, photo=post.url, caption=f"<b>{title}</b>", parse_mode=telegram.constants.ParseMode.HTML)
+                try:
+                    await context.bot.sendPhoto(chatID, photo=post.url, caption=f"<b>{title}</b>", parse_mode=telegram.constants.ParseMode.HTML)
+                except:
+                    pass
             elif 'reddit.com/gallery' in post.url:
                 continue
             time.sleep(time_delay)
