@@ -98,6 +98,6 @@ job_queue = application.job_queue
     
 hot_handler = CommandHandler('hot', hot_command)
 application.add_handler(hot_handler)
-job_minute = job_queue.run_repeating(hot, interval=600, first=5)
+job_minute = job_queue.run_repeating(hot, interval=checking_frequency * 3600, first=5)
 application.add_error_handler(error_handler)
 application.run_polling()
