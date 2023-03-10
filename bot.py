@@ -52,7 +52,7 @@ async def hot(context: ContextTypes.DEFAULT_TYPE):
                     pass
             elif 'reddit.com/gallery' in post.url:
                 continue
-            # time.sleep(time_delay)
+            time.sleep(time_delay)
     
     prev_posts.insert_urls(to_update)        
 
