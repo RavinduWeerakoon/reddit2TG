@@ -10,15 +10,15 @@ import time
 
 prev_posts = PrevPosts()
 
-
+to_update = []
 
 async def hot(context: ContextTypes.DEFAULT_TYPE):
     #creating the temp list to update the db
     
-    to_update = []
+
     scraper = RedditScraper()
     hot = scraper.get_hot(num=number_of_posts)
-    last_urls = prev_posts.get_last_urls(number_of_posts+10)
+    last_urls = prev_posts.get_last_urls(number_of_posts+40)
 
     
     time_delay = checking_frequency * 3600 /40
@@ -33,6 +33,7 @@ async def hot(context: ContextTypes.DEFAULT_TYPE):
             if post.stickied or check_question(post):
                 continue
             to_update.append(post.url)
+            
             if post.is_self:
                 if "preview.redd.it" in text:
                     
@@ -51,7 +52,7 @@ async def hot(context: ContextTypes.DEFAULT_TYPE):
                     pass
             elif 'reddit.com/gallery' in post.url:
                 continue
-            time.sleep(time_delay)
+            # time.sleep(time_delay)
     
     prev_posts.insert_urls(to_update)        
 
@@ -84,6 +85,12 @@ async def send_images(title, text, context):
 
 async def hot_command(update, context):
     pass
+
+# the error handler class tp update the db in a sudde failiure
+async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> None:
+    # print("Error")
+    prev_posts.insert_urls(to_update)
+
     
 
 application = ApplicationBuilder().token(token).read_timeout(30).write_timeout(30).build()
@@ -91,5 +98,6 @@ job_queue = application.job_queue
     
 hot_handler = CommandHandler('hot', hot_command)
 application.add_handler(hot_handler)
-job_minute = job_queue.run_repeating(hot, interval=checking_frequency*3600, first=5)
+job_minute = job_queue.run_repeating(hot, interval=600, first=5)
+application.add_error_handler(error_handler)
 application.run_polling()
