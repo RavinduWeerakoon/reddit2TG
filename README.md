@@ -12,3 +12,6 @@ To have the reddit api key  follow  [here](https://www.reddit.com/prefs/apps)
 
 Then rename the const.py.example to const.py and update the api keys
 Then run bot.py
+
+
+# Description
